@@ -1,0 +1,38 @@
+{
+  "walk": {
+    "frames": 31,
+    "fps": 24,
+    "frame_width": 110,
+    "frame_height": 204
+  },
+  "wave": {
+    "frames": 22,
+    "fps": 12,
+    "frame_width": 128,
+    "frame_height": 204
+  },
+  "happy": {
+    "frames": 4,
+    "fps": 6,
+    "frame_width": 144,
+    "frame_height": 196
+  },
+  "drink": {
+    "frames": 72,
+    "fps": 12,
+    "frame_width": 118,
+    "frame_height": 204
+  },
+  "stretch": {
+    "frames": 76,
+    "fps": 12,
+    "frame_width": 154,
+    "frame_height": 204
+  },
+  "eyes": {
+    "frames": 59,
+    "fps": 12,
+    "frame_width": 144,
+    "frame_height": 204
+  }
+}

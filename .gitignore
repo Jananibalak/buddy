@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# PyInstaller output (rebuild with build.bat)
+build/
+dist/
+*.spec
+
+# Personal files
+# your own reminders/settings (created on first run)
+settings.json
+# created from assets/ on first run; your extra outfits stay private
+characters/
+videos/
+*.mp4
+*.mov
+*.webm

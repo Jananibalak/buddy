@@ -1,0 +1,98 @@
+"""
+STEP 7 – The real app: Buddy.exe
+
+This is the file PyInstaller turns into Buddy.exe (see build.bat). It adds:
+  • only one Buddy at a time   -> a lock file; starting a second copy just says "already running"
+  • "Start with Windows"        -> a tray menu tick that adds/removes Buddy from Windows startup
+  • real-use defaults           -> a brand-new settings.json starts with test mode OFF
+
+Run as a script:  py buddy.py          (same as step6, plus the extras above)
+Build the .exe:   double-click build.bat
+"""
+import sys
+import tempfile
+from pathlib import Path
+
+from PySide6.QtCore import QLockFile
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QApplication, QMessageBox, QSystemTrayIcon
+
+import step5_settings as s5
+from step6_characters import CharacterBuddy
+from paths import app_dir
+
+RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"   # per-user startup list in the registry
+APP_NAME = "Buddy"
+
+
+# ---------------------------------------------------------------
+# Start with Windows: one entry in HKEY_CURRENT_USER\...\Run
+# (no admin rights needed; you can also see/remove it in Task Manager → Startup apps)
+# ---------------------------------------------------------------
+def startup_command():
+    if getattr(sys, "frozen", False):                           # running as Buddy.exe
+        return f'"{sys.executable}"'
+    pythonw = Path(sys.executable).with_name("pythonw.exe")     # pythonw = no console window
+    return f'"{pythonw}" "{Path(__file__).resolve()}"'
+
+
+def startup_enabled():
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, RUN_KEY) as key:
+            winreg.QueryValueEx(key, APP_NAME)
+            return True
+    except (OSError, ImportError):
+        return False
+
+
+def set_startup(on):
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, RUN_KEY, 0, winreg.KEY_SET_VALUE) as key:
+            if on:
+                winreg.SetValueEx(key, APP_NAME, 0, winreg.REG_SZ, startup_command())
+            else:
+                winreg.DeleteValue(key, APP_NAME)
+    except FileNotFoundError:
+        pass                                                    # already removed
+    except (OSError, ImportError) as e:
+        print(f"Couldn't change startup setting: {e}")
+
+
+class AppBuddy(CharacterBuddy):
+    def build_menu(self):
+        """Step 5's tray menu + a 'Start with Windows' tick, placed just above 'Settings…'."""
+        super().build_menu()
+        start = QAction("Start with Windows", self.menu, checkable=True)
+        start.setChecked(startup_enabled())
+        start.toggled.connect(set_startup)
+        settings_action = next(a for a in self.menu.actions() if a.text().startswith("Settings"))
+        self.menu.insertAction(settings_action, start)
+        self.menu.insertSeparator(settings_action)
+
+
+def main():
+    app = QApplication(sys.argv)
+    app.setApplicationName(APP_NAME)
+    app.setQuitOnLastWindowClosed(False)
+
+    # only one Buddy: the first one holds a lock file; others see it and quit
+    lock = QLockFile(str(Path(tempfile.gettempdir()) / "buddy.lock"))
+    if not lock.tryLock(100):
+        QMessageBox.information(None, APP_NAME, "Buddy is already running – look for her face near the clock. 🧸")
+        return 0
+
+    if not s5.SETTINGS_FILE.exists():                           # first run of the real app
+        s5.DEFAULT_SETTINGS["test_mode"] = False
+
+    if not QSystemTrayIcon.isSystemTrayAvailable():
+        print("No system tray found – the tray icon won't show.")
+    buddy = AppBuddy(s5.load_settings())
+    app.setWindowIcon(buddy.icon)
+    print(f"Buddy is running from {app_dir()}")
+    return app.exec()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

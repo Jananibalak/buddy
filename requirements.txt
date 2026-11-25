@@ -1,0 +1,5 @@
+PySide6-Essentials>=6.6        # the app (windows, tray, animation)
+opencv-python-headless>=4.8    # only needed to create new characters from videos
+numpy
+pillow
+pyinstaller                    # only needed for build.bat (Buddy.exe)
