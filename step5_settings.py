@@ -3,7 +3,7 @@ STEP 5 – Tray icon + Settings window (saved in settings.json)
 
 What you learn here:
   • config files     -> settings live in settings.json, not in the code
-  • a tray icon      -> Buddy's "remote control" near the clock
+  • a tray icon      -> Kutty's "remote control" near the clock
   • a table editor   -> QTableWidget with checkboxes, number boxes and drop-downs inside cells
   • live reload      -> Save applies the new settings immediately, no restart
   • on/off switches  -> one master switch for ALL reminders + one per reminder + "pause 1 hour"
@@ -27,7 +27,7 @@ from PySide6.QtWidgets import (QApplication, QWidget, QLabel, QPushButton, QChec
 
 import step3_reminders as s3
 import step4_bubble as s4
-from step4_bubble import BubbleBuddy
+from step4_bubble import BubbleKutty
 
 SETTINGS_FILE = app_dir() / "settings.json"
 
@@ -89,11 +89,11 @@ class SettingsWindow(QWidget):
     def __init__(self, gestures, icon):
         super().__init__()
         self.gestures = gestures
-        self.setWindowTitle("Buddy – Settings")
+        self.setWindowTitle("Kutty – Settings")
         self.setWindowIcon(icon)
         self.resize(820, 420)
 
-        title = QLabel("🧸  Buddy settings")
+        title = QLabel("🧸  Kutty settings")
         title.setFont(QFont("Segoe UI", 14, QFont.Bold))
 
         # --- global options ---
@@ -219,9 +219,9 @@ class SettingsWindow(QWidget):
 
 
 # ---------------------------------------------------------------
-# 3. BUDDY WITH A TRAY ICON + SETTINGS
+# 3. KUTTY WITH A TRAY ICON + SETTINGS
 # ---------------------------------------------------------------
-class TrayBuddy(BubbleBuddy):
+class TrayKutty(BubbleKutty):
     def __init__(self, settings):
         self.settings = settings
         self.paused_until = 0.0
@@ -263,7 +263,7 @@ class TrayBuddy(BubbleBuddy):
         menu.addAction("Resume now", lambda: self.pause_for(0))
         menu.addSeparator()
         menu.addAction("Settings…", self.open_settings)
-        menu.addAction("Quit Buddy", QApplication.quit)
+        menu.addAction("Quit Kutty", QApplication.quit)
         self.menu = menu                      # keep a reference so Python doesn't delete it
         self.tray.setContextMenu(menu)
 
@@ -292,7 +292,7 @@ class TrayBuddy(BubbleBuddy):
         self.paused_until = time.time() + minutes * 60
         if minutes:
             self.queue.clear()
-            self.tray.showMessage("Buddy", f"Paused for {minutes} minutes 🤫", self.icon, 3000)
+            self.tray.showMessage("Kutty", f"Paused for {minutes} minutes 🤫", self.icon, 3000)
 
     def show_now(self, reminder):
         """Manual 'show now' works even when reminders are paused or switched off."""
@@ -323,18 +323,18 @@ class TrayBuddy(BubbleBuddy):
 
     def update_tooltip(self):
         if not self.settings["enabled"]:
-            text = "Buddy – reminders OFF"
+            text = "Kutty – reminders OFF"
         elif time.time() < self.paused_until:
-            text = f"Buddy – paused ({int((self.paused_until - time.time()) / 60) + 1} min left)"
+            text = f"Kutty – paused ({int((self.paused_until - time.time()) / 60) + 1} min left)"
         else:
             upcoming = [r for r in self.reminders if r.enabled and r.next_at != float("inf")]
             if upcoming:
                 r = min(upcoming, key=lambda r: r.next_at)
                 secs = max(0, int(r.next_at - time.monotonic()))
                 when = f"{secs} s" if s3.TEST_MODE else f"{secs // 60 + 1} min"
-                text = f"Buddy – next: {r.name} in {when}"
+                text = f"Kutty – next: {r.name} in {when}"
             else:
-                text = "Buddy – no reminders on"
+                text = "Kutty – no reminders on"
         self.tray.setToolTip(text)
 
     def print_schedule(self):
@@ -376,9 +376,9 @@ class TrayBuddy(BubbleBuddy):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setQuitOnLastWindowClosed(False)      # closing Settings must not quit Buddy
+    app.setQuitOnLastWindowClosed(False)      # closing Settings must not quit Kutty
     if not QSystemTrayIcon.isSystemTrayAvailable():
         print("No system tray found – the tray icon won't show.")
-    buddy = TrayBuddy(load_settings())
-    print(f"Buddy is running. Settings file: {SETTINGS_FILE}")
+    kutty = TrayKutty(load_settings())
+    print(f"Kutty is running. Settings file: {SETTINGS_FILE}")
     sys.exit(app.exec())

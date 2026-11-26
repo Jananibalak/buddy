@@ -1,8 +1,11 @@
-# 🧸 Buddy – a desktop friend who reminds you to take care of yourself
+# 🧸 Kutty – a desktop friend who reminds you to take care of yourself
 
-Buddy is a small animated character (a chibi cartoon of you) who **walks onto your screen only when it's time**
-to drink water, stretch, rest your eyes or fix your posture. She shows a speech bubble, waits for you to click
-**Done** or **Snooze**, does a happy dance, and walks away again. The rest of the time she's invisible.
+*Kutty* (குட்டி) is Tamil for "little one".
+
+Kutty is a small animated character (mine are chibi cartoons of my son and daughter) who **walks onto your screen
+only when it's time** to drink water, stretch, rest your eyes or fix your posture. The character acts it out, shows
+a speech bubble, waits for you to click **Done** or **Snooze**, does a happy dance, and walks away again.
+The rest of the time Kutty is invisible.
 
 Built with **Python + PySide6 (Qt)**. Runs on your own Windows PC with no internet and no accounts.
 
@@ -26,9 +29,9 @@ Built with **Python + PySide6 (Qt)**. Runs on your own Windows PC with no intern
 
 ### Option A – build the app (recommended)
 1. Install the requirements below (once).
-2. Double-click **`build.bat`**. After 1–3 minutes, `dist\Buddy\Buddy.exe` opens in Explorer.
-3. Move the `dist\Buddy` folder anywhere you like (e.g. `C:\Users\Admin\Apps\Buddy`), keeping everything inside it together.
-4. Double-click **Buddy.exe** → right-click her tray icon → tick **Start with Windows**.
+2. Double-click **`build.bat`**. After 1–3 minutes, `dist\Kutty\Kutty.exe` opens in Explorer.
+3. Move the `dist\Kutty` folder anywhere you like (e.g. `C:\Users\Admin\Apps\Kutty`), keeping everything inside it together.
+4. Double-click **Kutty.exe** → right-click her tray icon → tick **Start with Windows**.
 
 ### Option B – run from the Python files
 
@@ -37,9 +40,9 @@ Built with **Python + PySide6 (Qt)**. Runs on your own Windows PC with no intern
 py -m pip install PySide6-Essentials
 py -m pip install opencv-python-headless numpy pillow     # only needed to create new characters
 
-# 2. Run (from the Buddy folder)
-cd C:\Users\Admin\Buddy
-py buddy.py
+# 2. Run (from the Kutty folder)
+cd C:\Users\Admin\Kutty
+py kutty.py
 ```
 
 Her face appears as an icon near the clock (click **^** if hidden). Right-click it for the menu.
@@ -48,7 +51,7 @@ Turn it off in Settings for real use.
 
 ---
 
-## Using Buddy
+## Using Kutty
 
 | Where | What you can do |
 |-------|-----------------|
@@ -62,17 +65,17 @@ Turn it off in Settings for real use.
 ## Folder structure
 
 ```
-Buddy/
+Kutty/
 ├── step1_window.py         Step 1 – a transparent, always-on-top window (learning step)
 ├── step2_walk.py           Step 2 – animation + walking            ┐
 ├── step3_reminders.py      Step 3 – scheduler + queue               │  each step builds on
 ├── step4_bubble.py         Step 4 – speech bubble, Done/Snooze      │  the one before it
 ├── step5_settings.py       Step 5 – tray icon, settings, switches   │  (inheritance)
 ├── step6_characters.py     Step 6 – character packs                 ┘
-├── buddy.py                Step 7 – the app: single instance, Start with Windows  ← RUN THIS
-├── paths.py                finds the right folder (script vs Buddy.exe)
-├── build.bat               builds dist\Buddy\Buddy.exe with PyInstaller
-├── buddy.ico               her face, used as the app icon
+├── kutty.py                Step 7 – the app: single instance, Start with Windows  ← RUN THIS
+├── paths.py                finds the right folder (script vs Kutty.exe)
+├── build.bat               builds dist\Kutty\Kutty.exe with PyInstaller
+├── kutty.ico               her face, used as the app icon
 ├── make_character.py       green-screen videos → character pack (used by Settings, or from the command line)
 ├── settings.json           your settings (created on first run)
 ├── HOW_TO_CREATE_A_CHARACTER.md
@@ -103,7 +106,7 @@ Buddy/
 ### Each step adds one layer (inheritance)
 
 ```
-Buddy (step2) → ReminderBuddy (step3) → BubbleBuddy (step4) → TrayBuddy (step5) → CharacterBuddy (step6)
+Kutty (step2) → ReminderKutty (step3) → BubbleKutty (step4) → TrayKutty (step5) → CharacterKutty (step6)
 ```
 
 Each class **inherits** everything from the one before and only **overrides** what changes.
@@ -131,7 +134,7 @@ That's why each step file is short, and why every step can still be run on its o
 
 ### Step 4: the speech bubble
 - The bubble is its own transparent window, drawn by hand in `paintEvent` with `QPainterPath` (rounded box + tail + soft shadow).
-- **Signals & slots**: the bubble only *announces* `done` / `snooze`, and Buddy *listens*. Neither knows the other's internals.
+- **Signals & slots**: the bubble only *announces* `done` / `snooze`, and Kutty *listens*. Neither knows the other's internals.
 - **Polite**: `WindowDoesNotAcceptFocus` and `WA_ShowWithoutActivating` mean it appears without interrupting your typing.
 - **Waiting without freezing**: a 90 s single-shot timer races your click, and whichever comes first wins (an `asking` flag ignores the rest).
 - `QPropertyAnimation` fades the bubble in and floats and fades the heart.
@@ -151,9 +154,9 @@ That's why each step file is short, and why every step can still be run on its o
 - **Background thread**: "New character" converts videos in a `QThread`. The worker only talks to the window through signals, because Qt widgets must only be touched from the main thread.
 
 ### Step 7: a real app
-- **PyInstaller** bundles Python, Qt and your code into `dist\Buddy\` with `Buddy.exe`. `--windowed` means no black console window.
-- **`paths.app_dir()`**: inside an exe, `__file__` points to a hidden internal folder, so settings and characters are looked up next to `Buddy.exe` instead. This keeps them visible and editable.
-- **One Buddy at a time**: a `QLockFile` in the temp folder. A second copy sees the lock and only says "already running".
+- **PyInstaller** bundles Python, Qt and your code into `dist\Kutty\` with `Kutty.exe`. `--windowed` means no black console window.
+- **`paths.app_dir()`**: inside an exe, `__file__` points to a hidden internal folder, so settings and characters are looked up next to `Kutty.exe` instead. This keeps them visible and editable.
+- **One Kutty at a time**: a `QLockFile` in the temp folder. A second copy sees the lock and only says "already running".
 - **Start with Windows**: adds an entry under `HKEY_CURRENT_USER\...\Run` (no admin rights needed). It also shows in **Task Manager → Startup apps**.
 - **Real defaults**: a brand-new `settings.json` starts with test mode OFF.
 
@@ -209,7 +212,7 @@ How to make one: see **HOW_TO_CREATE_A_CHARACTER.md**.
 
 | Problem | Fix |
 |---------|-----|
-| `pip install PySide6` is very slow | install `PySide6-Essentials` instead (much smaller, has everything Buddy needs) |
+| `pip install PySide6` is very slow | install `PySide6-Essentials` instead (much smaller, has everything Kutty needs) |
 | No tray icon | click the **^** arrow by the clock; drag her icon onto the taskbar to keep it visible |
 | She never appears | check the tray tooltip: reminders OFF? paused? all reminders unticked? Try **Show a reminder now** |
 | She appears too often / too rarely | **Quick test mode** is probably on (1 min = 3 s). Untick it → Save |
@@ -217,21 +220,21 @@ How to make one: see **HOW_TO_CREATE_A_CHARACTER.md**.
 | Green edges around a new character | ask Gemini for a *plainer, brighter* green background and regenerate |
 | A "jump" when an action repeats | use **From / To** to pick the part of the video that starts and ends in the same pose |
 | She walks backwards | the walk video must show her facing **right** |
-| Closing the PowerShell window stops her | expected with `py`. Use `Buddy.exe` (build.bat) instead |
-| Windows says "Windows protected your PC" | the exe isn't signed: **More info → Run anyway** (only for the Buddy.exe you built yourself) |
-| Build fails in build.bat | close any running Buddy.exe first, then run build.bat again |
-| `dist\Buddy` is big (a few hundred MB) | normal: it contains Python, Qt, OpenCV. Don't email it; copy the folder |
+| Closing the PowerShell window stops her | expected with `py`. Use `Kutty.exe` (build.bat) instead |
+| Windows says "Windows protected your PC" | the exe isn't signed: **More info → Run anyway** (only for the Kutty.exe you built yourself) |
+| Build fails in build.bat | close any running Kutty.exe first, then run build.bat again |
+| `dist\Kutty` is big (a few hundred MB) | normal: it contains Python, Qt, OpenCV. Don't email it; copy the folder |
 
 ---
 
 ## Roadmap
 
 - [x] Steps 1–6: window, walking, scheduler, bubble, settings & tray, character packs
-- [x] **Step 7** – package as `Buddy.exe` (PyInstaller), start with Windows
+- [x] **Step 7** – package as `Kutty.exe` (PyInstaller), start with Windows
 - [ ] **Step 8** – learning mode: offline RAG with Ollama over your notes, micro-lessons in the bubble
-- [ ] **Step 9** – "Ask Buddy" chat and quiz cards with spaced repetition
+- [ ] **Step 9** – "Ask Kutty" chat and quiz cards with spaced repetition
 - [ ] Ideas: quiet hours, drag her around, click her to wave, random strolls, daily water count
 
 ---
 
-*Your character is made from your own photo with Gemini. Please use your own likeness or original designs, not real celebrities.*
+*Characters are made from your own photos with Gemini. Please use photos you have the right to use (yourself, your family with their consent) or original designs, not real celebrities.*

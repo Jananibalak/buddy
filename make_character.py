@@ -1,7 +1,7 @@
 """
-make_character.py – turn green-screen videos into a Buddy character pack
+make_character.py – turn green-screen videos into a Kutty character pack
 
-Usage (from your Buddy folder):
+Usage (from your Kutty folder):
     py make_character.py "Saree" walk=walk.mp4 wave=wave.mp4 drink=drink.mp4 stretch=stretch.mp4
 
     • The first argument is the character's display name.
@@ -16,7 +16,7 @@ What it does to each video (the same steps that were done by hand for your first
     2. remove the green background        -> transparent pixels (soft edges, no green fringe)
     3. remove stray bits like the Gemini ✦ watermark (keeps only the biggest shape = her)
     4. find a smooth loop                  -> the clip ends where it started, so it repeats without a jump
-    5. crop around her, scale to Buddy size, keep the feet on one line
+    5. crop around her, scale to Kutty size, keep the feet on one line
     6. save as a strip of frames           -> walk.png, drink.png ...
 
 Needs:  py -m pip install opencv-python-headless numpy pillow

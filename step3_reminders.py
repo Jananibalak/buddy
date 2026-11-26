@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 
-from step2_walk import Buddy          # everything from Step 2: clips, game loop, walk_to ...
+from step2_walk import Kutty          # everything from Step 2: clips, game loop, walk_to ...
 
 # ---------------------------------------------------------------
 # Settings
@@ -45,8 +45,8 @@ REMINDERS = [
 ]
 
 
-class ReminderBuddy(Buddy):
-    """Step 2's Buddy, but visits are driven by reminders instead of a 5-second loop."""
+class ReminderKutty(Kutty):
+    """Step 2's Kutty, but visits are driven by reminders instead of a 5-second loop."""
 
     def __init__(self, reminders):
         super().__init__()                         # run Step 2's setup first
@@ -116,6 +116,6 @@ class ReminderBuddy(Buddy):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)          # she is hidden most of the time – keep running
-    buddy = ReminderBuddy(REMINDERS)
-    print("Buddy is running. She'll appear when a reminder is due.")
+    kutty = ReminderKutty(REMINDERS)
+    print("Kutty is running. She'll appear when a reminder is due.")
     sys.exit(app.exec())

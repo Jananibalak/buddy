@@ -1,5 +1,5 @@
 """
-STEP 1 – Show Buddy on the desktop (a still picture, no animation yet)
+STEP 1 – Show Kutty on the desktop (a still picture, no animation yet)
 
 What you learn here:
   • a frameless window        -> no title bar, no borders
@@ -20,7 +20,7 @@ from PySide6.QtWidgets import QApplication, QLabel
 ASSETS = Path(__file__).parent / "assets"
 
 
-class Buddy(QLabel):
+class Kutty(QLabel):
     def __init__(self):
         super().__init__()
 
@@ -38,7 +38,7 @@ class Buddy(QLabel):
         strip = QPixmap(str(ASSETS / "wave.png"))
         frame_width = 128                      # from assets/clips.json
         first_frame = strip.copy(0, 0, frame_width, strip.height())
-        self.setPixmap(first_frame)z
+        self.setPixmap(first_frame)
         self.resize(first_frame.size())
 
         # 4) Put her in the bottom-right corner of the usable screen (above the taskbar)
@@ -58,6 +58,6 @@ class Buddy(QLabel):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    buddy = Buddy()
-    buddy.show()
+    kutty = Kutty()
+    kutty.show()
     sys.exit(app.exec())

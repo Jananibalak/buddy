@@ -3,7 +3,7 @@ STEP 4 – Speech bubble with Done / Snooze, and a happy dance
 
 What you learn here:
   • custom painting  -> draw the bubble shape yourself (rounded box + little tail) with QPainter
-  • signals & slots  -> the bubble "announces" a click; Buddy "listens" and reacts
+  • signals & slots  -> the bubble "announces" a click; Kutty "listens" and reacts
   • not stealing focus -> the bubble appears without interrupting your typing
   • animations       -> the heart floats up and fades with QPropertyAnimation
   • waiting without freezing -> she waits for your click, with a timeout
@@ -18,7 +18,7 @@ from PySide6.QtCore import (Qt, QTimer, Signal, QPoint, QPropertyAnimation,
 from PySide6.QtGui import QPainter, QPainterPath, QColor, QPolygonF, QFont, QPen
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout
 
-from step3_reminders import ReminderBuddy, REMINDERS
+from step3_reminders import ReminderKutty, REMINDERS
 
 SNOOZE_MINUTES = 5
 AUTO_DISMISS_SECONDS = 90     # no answer in 90 s -> treat as snooze
@@ -216,9 +216,9 @@ class Heart(QLabel):
 
 
 # ---------------------------------------------------------------
-# Buddy with a bubble: Step 3 + "ask and wait for an answer"
+# Kutty with a bubble: Step 3 + "ask and wait for an answer"
 # ---------------------------------------------------------------
-class BubbleBuddy(ReminderBuddy):
+class BubbleKutty(ReminderKutty):
     def __init__(self, reminders):
         super().__init__(reminders)
         self.bubble = SpeechBubble()
@@ -226,7 +226,7 @@ class BubbleBuddy(ReminderBuddy):
         self.asking = False
         self.next_delay = None          # minutes until this reminder comes back
 
-        # slots: connect the bubble's signals to Buddy's reaction
+        # slots: connect the bubble's signals to Kutty's reaction
         self.bubble.done.connect(lambda: self.answer("done"))
         self.bubble.snooze.connect(lambda: self.answer("snooze"))
 
@@ -279,6 +279,6 @@ class BubbleBuddy(ReminderBuddy):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
-    buddy = BubbleBuddy(REMINDERS)
-    print("Buddy is running. She'll appear when a reminder is due.")
+    kutty = BubbleKutty(REMINDERS)
+    print("Kutty is running. She'll appear when a reminder is due.")
     sys.exit(app.exec())

@@ -47,7 +47,7 @@ def load_clips():
     return {name: Clip(name, info) for name, info in meta.items()}
 
 
-class Buddy(QLabel):
+class Kutty(QLabel):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
@@ -154,6 +154,6 @@ class Buddy(QLabel):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    buddy = Buddy()
-    buddy.visit()
+    kutty = Kutty()
+    kutty.visit()
     sys.exit(app.exec())

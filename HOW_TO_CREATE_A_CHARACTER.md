@@ -1,4 +1,4 @@
-# How to create a new Buddy character
+# How to create a new Kutty character
 
 A **character** is a folder inside `characters/` that holds her animations.
 You can have as many as you like (school uniform, saree, office wear, a festival look...)
@@ -80,7 +80,7 @@ Cute, bouncy cartoon motion.
 
 Don't worry about the Gemini ✦ watermark or extra seconds at the start/end – the tool handles those.
 
-Put the videos in your `Buddy` folder (or a sub-folder such as `videos\saree\`).
+Put the videos in your `Kutty` folder (or a sub-folder such as `videos\saree\`).
 
 ---
 
@@ -92,15 +92,15 @@ One-time setup (in PowerShell):
 py -m pip install opencv-python-headless numpy pillow
 ```
 
-### Easy way: from Buddy's Settings (no commands)
+### Easy way: from Kutty's Settings (no commands)
 
-1. Right-click Buddy's face icon near the clock → **Settings…**
+1. Right-click Kutty's face icon near the clock → **Settings…**
 2. Click **＋ New character…**
 3. **Name:** type a new name (e.g. `Saree`), *or* pick an existing character to add more actions to it.
 4. Click **Choose…** next to each action and pick its video.
    Or click **Pick several videos…** and select them all at once. Files named `walk.mp4`, `drink.mp4` ... are matched automatically.
 5. *(Optional)* **From / To**: use only part of a video, in seconds. Leave `–` for the whole video.
-6. Click **Create**. The log shows each video as it's converted (about 5–10 seconds each). Buddy keeps working meanwhile.
+6. Click **Create**. The log shows each video as it's converted (about 5–10 seconds each). Kutty keeps working meanwhile.
 7. When it says **Done**, the new character is already selected, with a waving preview. Click **Save**.
 
 ### Command-line way (same result)
@@ -113,7 +113,7 @@ One-time setup:
 py -m pip install opencv-python-headless numpy pillow
 ```
 
-Then, in PowerShell inside your `Buddy` folder:
+Then, in PowerShell inside your `Kutty` folder:
 
 ```
 py make_character.py "Saree" walk=videos\saree\walk.mp4 wave=videos\saree\wave.mp4 drink=videos\saree\drink.mp4
@@ -127,7 +127,7 @@ py make_character.py "Saree" walk=videos\saree\walk.mp4 wave=videos\saree\wave.m
 Making character 'Saree' in ...\characters\saree
   walk     240 frames @ 24 fps  -> loop 6.0s–7.2s, 28 frames, 113x212px
   wave     240 frames @ 24 fps  -> loop 0.5s–8.8s, 99 frames, 140x208px
-Done! Open Buddy → Settings → Character → 'Saree'
+Done! Open Kutty → Settings → Character → 'Saree'
 ```
 
 **Add more actions later** by using the **same name** again. Existing actions are kept:
@@ -145,9 +145,9 @@ py make_character.py "Saree" stretch=videos\saree\stretch.mp4@3.5-10
 
 ---
 
-## Step 4 – Choose her in Buddy (if you used the command line)
+## Step 4 – Choose her in Kutty (if you used the command line)
 
-1. Right-click Buddy's face icon near the clock → **Settings…**
+1. Right-click Kutty's face icon near the clock → **Settings…**
 2. **Character** drop-down → choose **Saree**. She waves in the little preview.
 3. **Save**. If she's on screen right now, she changes after she walks away.
 

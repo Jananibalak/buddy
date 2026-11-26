@@ -7,7 +7,7 @@ What you learn here:
   • migration              -> first run moves your existing assets/ into the first pack automatically
   • swapping at runtime    -> change character in Settings, she changes on her next visit
 
-  • background work        -> converting videos runs in a QThread, so Buddy never freezes
+  • background work        -> converting videos runs in a QThread, so Kutty never freezes
 
 Run:   py step6_characters.py
 Make a new character:  Settings → "＋ New character…"  (or make_character.py, see HOW_TO_CREATE_A_CHARACTER.md)
@@ -128,7 +128,7 @@ class NewCharacterDialog(QDialog):
 
     def __init__(self, parent, packs):
         super().__init__(parent)
-        self.setWindowTitle("Buddy – New character")
+        self.setWindowTitle("Kutty – New character")
         self.resize(760, 520)
         self.thread = None
 
@@ -319,7 +319,7 @@ class CharacterSettingsWindow(s5.SettingsWindow):
             self.preview_i += 1
 
     def open_with(self, settings):
-        self.fill_packs(list_packs())                 # new packs appear without restarting Buddy
+        self.fill_packs(list_packs())                 # new packs appear without restarting Kutty
         i = self.char_box.findData(settings.get("character"))
         self.char_box.setCurrentIndex(max(0, i))
         self.bubble_box.setCurrentText(settings.get("bubble_style", s4.BUBBLE_STYLE))
@@ -347,9 +347,9 @@ class CharacterSettingsWindow(s5.SettingsWindow):
 
 
 # ---------------------------------------------------------------
-# 4. BUDDY THAT CAN CHANGE CHARACTER
+# 4. KUTTY THAT CAN CHANGE CHARACTER
 # ---------------------------------------------------------------
-class CharacterBuddy(s5.TrayBuddy):
+class CharacterKutty(s5.TrayKutty):
     def __init__(self, settings):
         ensure_first_pack()
         packs = list_packs()
@@ -425,6 +425,6 @@ if __name__ == "__main__":
     app.setQuitOnLastWindowClosed(False)
     if not QSystemTrayIcon.isSystemTrayAvailable():
         print("No system tray found – the tray icon won't show.")
-    buddy = CharacterBuddy(s5.load_settings())
-    print(f"Buddy is running. Characters folder: {CHARACTERS}")
+    kutty = CharacterKutty(s5.load_settings())
+    print(f"Kutty is running. Characters folder: {CHARACTERS}")
     sys.exit(app.exec())
